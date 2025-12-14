@@ -153,7 +153,7 @@
     </div>
 
     <footer>
-      Internal use only
+      Internal use only. Paid for by Swalwell for Governor 2026
     </footer>
 
   </div>
@@ -181,7 +181,7 @@ function loadSection(key) {
   fetch(SECTIONS[key].url)
     .then(res => res.text())
     .then(csv => {
-      const rows = csv.trim().split("\n").map(r => r.split(" "));
+      const rows = csv.trim().split("\n").map(r => r.split(","));
       SECTIONS[key].render(rows);
     })
     .catch(() => {
