@@ -2,62 +2,161 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Campaign Dashboard</title>
+  <title>SFG Team App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #f6f6f6;
+    :root {
+      /* 🎨 BRAND COLORS */
+      --primary-color: #003A6F;   /* Swalwell Navy */
+      --accent-color: #FDBA18;    /* Bear Gold */
+
+      /* UI NEUTRALS */
+      --bg-color: #F4F6F8;
+      --card-bg: #FFFFFF;
+      --text-color: #111827;
+      --muted-text: #6B7280;
+      --border-color: #E5E7EB;
     }
-    h1 {
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter",
+                   "Segoe UI", Roboto, sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      padding: 20px;
+    }
+
+    .app {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    header img {
+      height: 36px;
+      width: auto;
+    }
+
+    header h1 {
+      font-size: 22px;
+      font-weight: 600;
+      margin: 0;
+      color: var(--primary-color);
+    }
+
+    /* CONTROLS */
+    .controls {
       margin-bottom: 16px;
     }
+
     select {
-      padding: 8px;
-      font-size: 15px;
-      margin-bottom: 20px;
+      padding: 10px 14px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: #fff;
+      color: var(--text-color);
     }
+
+    /* CARD */
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    /* QUICK LINKS */
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      margin: 12px 0;
+    }
+
+    a {
+      color: var(--primary-color);
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--accent-color);
+      text-decoration: underline;
+    }
+
+    /* TABLE */
     table {
       width: 100%;
       border-collapse: collapse;
-      background: #ffffff;
     }
+
     th, td {
-      padding: 10px;
-      border: 1px solid #ddd;
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--border-color);
       text-align: left;
     }
+
     th {
-      background: #f0f0f0;
+      font-size: 12px;
+      color: var(--muted-text);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
-    ul {
-      list-style: none;
-      padding-left: 0;
+
+    td {
+      font-size: 15px;
     }
-    li {
-      margin: 10px 0;
-    }
-    a {
-      color: #1a73e8;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    a:hover {
-      text-decoration: underline;
+
+    footer {
+      margin-top: 28px;
+      font-size: 12px;
+      color: var(--muted-text);
+      text-align: center;
     }
   </style>
 </head>
+
 <body>
+  <div class="app">
 
-<h1>Campaign Dashboard</h1>
+    <header>
+      <img src="assets/bear-logo.png" alt="SFG Bear Logo" />
+      <h1>SFG Team App</h1>
+    </header>
 
-<select id="sectionSelect">
-  <option value="quickLinks">Quick Links</option>
-  <option value="fundraising">Fundraising Summary</option>
-</select>
+    <div class="controls">
+      <select id="sectionSelect">
+        <option value="quickLinks">Quick Links</option>
+        <option value="fundraising">Fundraising Summary</option>
+      </select>
+    </div>
 
-<div id="content">Loading…</div>
+    <div id="content" class="card">
+      Loading…
+    </div>
+
+    <footer>
+      Internal use only
+    </footer>
+
+  </div>
 
 <script>
 const SECTIONS = {
@@ -74,9 +173,7 @@ const SECTIONS = {
 const content = document.getElementById("content");
 const select = document.getElementById("sectionSelect");
 
-select.addEventListener("change", () => {
-  loadSection(select.value);
-});
+select.addEventListener("change", () => loadSection(select.value));
 
 function loadSection(key) {
   content.innerHTML = "Loading…";
@@ -87,9 +184,8 @@ function loadSection(key) {
       const rows = csv.trim().split("\n").map(r => r.split(","));
       SECTIONS[key].render(rows);
     })
-    .catch(err => {
+    .catch(() => {
       content.innerHTML = "Failed to load data.";
-      console.error(err);
     });
 }
 
@@ -119,9 +215,10 @@ function renderTable(rows) {
   content.innerHTML = html;
 }
 
-// Load default
+// Default view
 loadSection("quickLinks");
 </script>
 
 </body>
 </html>
+
