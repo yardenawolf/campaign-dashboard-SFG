@@ -1,0 +1,20 @@
+{
+  "name": "SFG Team App",
+  "short_name": "SFG Team",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#003362",
+  "theme_color": "#003362",
+  "icons": [
+    {
+      "src": "assets/yellow-bear.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/yellow-bear.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
