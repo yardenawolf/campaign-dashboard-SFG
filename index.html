@@ -2,34 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>SFG Team App</title>
+  <title>SFG TEAM APP</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- MONTSERRAT FOR HEADER -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      /* 🎨 BRAND COLORS */
-      --primary-color: #003362;   /* Swalwell Navy */
-      --accent-color: #FDBA18;    /* Bear Gold */
+      /* BRAND */
+      --navy: #003362;
+      --gold: #FDBA18;
 
-      /* UI NEUTRALS */
-      --bg-color: #FDBA18;
-      --card-bg: #FFFFFF;
-      --text-color: #FDB515;
-      --muted-text: #FFFFFF;
-      --border-color: #E5E7EB;
+      /* UI */
+      --bg: var(--navy);
+      --card: #ffffff;
+      --border: #e5e7eb;
     }
 
     * {
       box-sizing: border-box;
+      text-transform: uppercase;
     }
 
     body {
       margin: 0;
-      font-family: -Futra, Montserrat, "Futra"
-                    "Segoe UI", Roboto, sans-serif;
-      background: var(--bg-color);
-      color: var(--text-color);
+      background: var(--bg);
       padding: 20px;
+      font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+      color: var(--navy);
     }
 
     .app {
@@ -40,21 +41,23 @@
     /* HEADER */
     header {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
+      text-align: center;
     }
 
     header img {
-      height: 200px;
-      width: auto;
+      height: 180px;
+      margin-bottom: 12px;
     }
 
     header h1 {
-      font-size: 75px;
-      font-weight: 600;
+      font-family: "Montserrat", sans-serif;
+      font-size: 56px;
       margin: 0;
-      color: var(--primary-color);
+      color: #ffffff;
+      letter-spacing: 0.05em;
     }
 
     /* CONTROLS */
@@ -63,23 +66,25 @@
     }
 
     select {
-      padding: 10px 14px;
+      width: 100%;
+      padding: 14px;
       font-size: 14px;
-      border-radius: 6px;
-      border: 1px solid var(--border-color);
-      background: #fff;
-      color: var(--text-color);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--navy);
+      font-family: Futura, "Trebuchet MS", Arial, sans-serif;
     }
 
     /* CARD */
     .card {
-      background: var(--card-bg);
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      background: var(--card);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
     }
 
-    /* QUICK LINKS */
+    /* LINKS */
     ul {
       list-style: none;
       padding: 0;
@@ -87,47 +92,39 @@
     }
 
     li {
-      margin: 12px 0;
+      margin: 14px 0;
     }
 
     a {
-      color: var(--primary-color);
-      font-weight: 500;
+      color: var(--navy);
+      font-weight: 600;
       text-decoration: none;
     }
 
     a:hover {
-      color: var(--accent-color);
       text-decoration: underline;
     }
 
-    /* TABLE */
+    /* FUNDRAISING TABLE */
     table {
       width: 100%;
       border-collapse: collapse;
     }
 
-    th, td {
-      padding: 12px 10px;
-      border-bottom: 1px solid var(--border-color);
-      text-align: left;
-    }
-
-    th {
-      font-size: 12px;
-      color: var(--muted-text);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
     td {
-      font-size: 15px;
+      padding: 14px 10px;
+      border-bottom: 1px solid var(--border);
+      font-size: 18px;
+    }
+
+    td:first-child {
+      font-weight: 600;
     }
 
     footer {
-      margin-top: 28px;
+      margin-top: 32px;
       font-size: 12px;
-      color: var(--muted-text);
+      color: #ffffff;
       text-align: center;
     }
   </style>
@@ -137,8 +134,8 @@
   <div class="app">
 
     <header>
-      <img src="assets/bear-logo.png" alt="SFG Bear Logo" />
-      <h1>SFG Team App</h1>
+      <img src="assets/bear-logo.png" alt="SFG Bear Logo">
+      <h1>SFG TEAM APP</h1>
     </header>
 
     <div class="controls">
@@ -159,6 +156,38 @@
   </div>
 
 <script>
+/* ---------- CSV PARSER (HANDLES COMMAS SAFELY) ---------- */
+function parseCSV(text) {
+  const rows = [];
+  let row = [];
+  let current = "";
+  let insideQuotes = false;
+
+  for (let char of text) {
+    if (char === '"' ) {
+      insideQuotes = !insideQuotes;
+    } else if (char === "," && !insideQuotes) {
+      row.push(current.trim());
+      current = "";
+    } else if (char === "\n" && !insideQuotes) {
+      row.push(current.trim());
+      rows.push(row);
+      row = [];
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+  if (current) row.push(current.trim());
+  if (row.length) rows.push(row);
+  return rows;
+}
+
+function formatMoney(val) {
+  const num = Number(val.replace(/[^0-9.-]/g,""));
+  return isNaN(num) ? val : "$" + num.toLocaleString();
+}
+
 const SECTIONS = {
   quickLinks: {
     url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Z0IB-xXvYnIk7GnsqFOXdsFB8D7_WfIVMQhCiSmLg_6Ye9mCyTbi6YZgc7HMFIdhdCEAM0I9lcsJ/pub?gid=1066216552&single=true&output=csv",
@@ -166,7 +195,7 @@ const SECTIONS = {
   },
   fundraising: {
     url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Z0IB-xXvYnIk7GnsqFOXdsFB8D7_WfIVMQhCiSmLg_6Ye9mCyTbi6YZgc7HMFIdhdCEAM0I9lcsJ/pub?gid=0&single=true&output=csv",
-    render: renderTable
+    render: renderFundraising
   }
 };
 
@@ -177,47 +206,38 @@ select.addEventListener("change", () => loadSection(select.value));
 
 function loadSection(key) {
   content.innerHTML = "Loading…";
-
   fetch(SECTIONS[key].url)
-    .then(res => res.text())
-    .then(csv => {
-      const rows = csv.trim().split("\n").map(r => r.split(","));
-      SECTIONS[key].render(rows);
-    })
-    .catch(() => {
-      content.innerHTML = "Failed to load data.";
-    });
+    .then(r => r.text())
+    .then(text => parseCSV(text))
+    .then(rows => SECTIONS[key].render(rows))
+    .catch(() => content.innerHTML = "Failed to load data.");
 }
 
 function renderQuickLinks(rows) {
   const data = rows.slice(1);
   let html = "<ul>";
-
   data.forEach(([label, url]) => {
-    if (!label || !url) return;
-    html += `<li><a href="${url}" target="_blank" rel="noopener">${label}</a></li>`;
+    if (label && url) {
+      html += `<li><a href="${url}" target="_blank">${label}</a></li>`;
+    }
   });
-
   html += "</ul>";
   content.innerHTML = html;
 }
 
-function renderTable(rows) {
+function renderFundraising(rows) {
+  const data = rows.slice(1);
   let html = "<table>";
-  rows.forEach((row, i) => {
-    html += "<tr>";
-    row.forEach(cell => {
-      html += i === 0 ? `<th>${cell}</th>` : `<td>${cell}</td>`;
-    });
-    html += "</tr>";
+  data.forEach(([metric, value]) => {
+    html += `<tr><td>${metric}</td><td>${formatMoney(value)}</td></tr>`;
   });
   html += "</table>";
   content.innerHTML = html;
 }
 
-// Default view
 loadSection("quickLinks");
 </script>
 
 </body>
 </html>
+
