@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Campaign Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f6f6f6;
+    }
+    h1 {
+      margin-bottom: 16px;
+    }
+    select {
+      padding: 8px;
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #ffffff;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background: #f0f0f0;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    li {
+      margin: 10px 0;
+    }
+    a {
+      color: #1a73e8;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Campaign Dashboard</h1>
+
+<select id="sectionSelect">
+  <option value="quickLinks">Quick Links</option>
+  <option value="fundraising">Fundraising Summary</option>
+</select>
+
+<div id="content">Loading…</div>
+
+<script>
+const SECTIONS = {
+  quickLinks: {
+    url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Z0IB-xXvYnIk7GnsqFOXdsFB8D7_WfIVMQhCiSmLg_6Ye9mCyTbi6YZgc7HMFIdhdCEAM0I9lcsJ/pub?gid=1066216552&single=true&output=csv",
+    render: renderQuickLinks
+  },
+  fundraising: {
+    url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Z0IB-xXvYnIk7GnsqFOXdsFB8D7_WfIVMQhCiSmLg_6Ye9mCyTbi6YZgc7HMFIdhdCEAM0I9lcsJ/pub?gid=0&single=true&output=csv",
+    render: renderTable
+  }
+};
+
+const content = document.getElementById("content");
+const select = document.getElementById("sectionSelect");
+
+select.addEventListener("change", () => {
+  loadSection(select.value);
+});
+
+function loadSection(key) {
+  content.innerHTML = "Loading…";
+
+  fetch(SECTIONS[key].url)
+    .then(res => res.text())
+    .then(csv => {
+      const rows = csv.trim().split("\n").map(r => r.split(","));
+      SECTIONS[key].render(rows);
+    })
+    .catch(err => {
+      content.innerHTML = "Failed to load data.";
+      console.error(err);
+    });
+}
+
+function renderQuickLinks(rows) {
+  const data = rows.slice(1);
+  let html = "<ul>";
+
+  data.forEach(([label, url]) => {
+    if (!label || !url) return;
+    html += `<li><a href="${url}" target="_blank" rel="noopener">${label}</a></li>`;
+  });
+
+  html += "</ul>";
+  content.innerHTML = html;
+}
+
+function renderTable(rows) {
+  let html = "<table>";
+  rows.forEach((row, i) => {
+    html += "<tr>";
+    row.forEach(cell => {
+      html += i === 0 ? `<th>${cell}</th>` : `<td>${cell}</td>`;
+    });
+    html += "</tr>";
+  });
+  html += "</table>";
+  content.innerHTML = html;
+}
+
+// Load default
+loadSection("quickLinks");
+</script>
+
+</body>
+</html>
