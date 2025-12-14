@@ -7,6 +7,7 @@
 
   <!-- MONTSERRAT FOR HEADER -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.json">
 
   <style>
     :root {
@@ -236,6 +237,11 @@ function renderFundraising(rows) {
 }
 
 loadSection("quickLinks");
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/service-worker.js");
+}
 </script>
 
 </body>
