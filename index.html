@@ -241,20 +241,34 @@ function renderFundraising(rows) {
   content.innerHTML = html;
 }
   function renderTeamInfo(rows) {
-  const data = rows.slice(1);
+  const data = rows.slice(1); // remove header row
   let html = "<table>";
 
-  data.forEach(([name, email, phone, position]) => {
-    if (name) {
-      html += `
-        <tr>
-          <td>${name}</td>
-          <td>${email}</td>
-          <td>${phone}</td>
-          <td>${position}</td>
-        </tr>
-      `;
-    }
+  // Optional: Add a header row like fundraising uses
+  html += `
+    <tr>
+      <td><strong>Name</strong></td>
+      <td><strong>Email</strong></td>
+      <td><strong>Phone</strong></td>
+      <td><strong>Role</strong></td>
+    </tr>
+  `;
+
+  data.forEach(row => {
+    // Handles rows with missing columns safely
+    const name      = row[0] || "";
+    const email     = row[1] || "";
+    const phone     = row[2] || "";
+    const position  = row[3] || "";
+
+    html += `
+      <tr>
+        <td>${name}</td>
+        <td>${email}</td>
+        <td>${phone}</td>
+        <td>${position}</td>
+      </tr>
+    `;
   });
 
   html += "</table>";
