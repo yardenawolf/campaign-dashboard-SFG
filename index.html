@@ -240,17 +240,27 @@ function renderFundraising(rows) {
   html += "</table>";
   content.innerHTML = html;
 }
-
-function renderTeamInfo(rows) {
+  function renderTeamInfo(rows) {
   const data = rows.slice(1);
- let html = "<table>";
-  data.forEach(([name, email, phonenumber, position]) => {
-    html += `<tr><td>${name}</td><td>${email}</td><td>${phonenumber}</td><td>${position}</td></tr>`;
+  let html = "<table>";
+
+  data.forEach(([name, email, phone, position]) => {
+    if (name) {
+      html += `
+        <tr>
+          <td>${name}</td>
+          <td>${email}</td>
+          <td>${phone}</td>
+          <td>${position}</td>
+        </tr>
+      `;
+    }
   });
+
   html += "</table>";
   content.innerHTML = html;
 }
-  
+
 loadSection("quickLinks");
 </script>
 <script>
