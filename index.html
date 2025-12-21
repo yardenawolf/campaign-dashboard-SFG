@@ -157,12 +157,10 @@
 
   </div>
 
-<script>
   <script>
 (function () {
   const PASSWORD = "SFG26!";
 
-  // If already authenticated this session, allow
   if (sessionStorage.getItem("sfg_auth") === "true") return;
 
   const input = prompt("Enter password:");
