@@ -234,7 +234,7 @@ select.addEventListener("change", () => loadSection(select.value));
 
 function loadSection(key) {
   content.innerHTML = "Loading…";
-  const section = SECTIONS [key];
+  const section = SECTIONS[key];
   if (section.url) {
     fetch(section.url)
     .then(r => r.text())
@@ -302,7 +302,7 @@ function renderFundraising(rows) {
   content.innerHTML = html;
 }
 
-function renderDonorWireMail() {
+function renderwiringInfo() {
   const pdfUrl = "assets/wiring-info.pdf";
   content.innerHTML = `
     <div style="text-align: center; padding: 40px 20px;">
