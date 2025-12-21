@@ -135,19 +135,19 @@
 
     /* MOBILE: SMALLER TABLE CELLS */
     @media (max-width: 768px) {
-      table {
+      .team-info-table {
         min-width: 600px; /* Prevents table from compressing too much */
       }
 
-      td {
+     .team-info-table td {
         padding: 10px 8px;
         font-size: 14px;
         white-space: nowrap;
       }
 
       /* Make email and phone links break if needed */
-      td:nth-child(2),
-      td:nth-child(3) {
+      .team-info-table td:nth-child(2),
+      .team-info-table td:nth-child(3) {
         white-space: normal;
         word-break: break-all;
         max-width: 150px;
@@ -155,13 +155,13 @@
     }
 
     @media (max-width: 480px) {
-      td {
+      .team-info-table td {
         padding: 8px 6px;
         font-size: 12px;
       }
 
-      td:nth-child(2),
-      td:nth-child(3) {
+      .team-info-table td:nth-child(2),
+      .team-info-table td:nth-child(3) {
         max-width: 120px;
       }
     }
@@ -313,7 +313,7 @@ function renderFundraising(rows) {
 }
   function renderTeamInfo(rows) {
   const data = rows.slice(1); // remove header row
-  let html = "<table>";
+  let html = "<table class=\"team-info-table\">";
 
   // Optional: Add a header row like fundraising uses
   html += `
