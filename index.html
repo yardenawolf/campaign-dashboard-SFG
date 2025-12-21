@@ -143,6 +143,7 @@
       <select id="sectionSelect">
         <option value="quickLinks">Quick Links</option>
         <option value="fundraising">Fundraising Summary</option>
+        <option value="TeamInfo">Team Contact Information</option>
       </select>
     </div>
 
@@ -197,6 +198,10 @@ const SECTIONS = {
   fundraising: {
     url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Z0IB-xXvYnIk7GnsqFOXdsFB8D7_WfIVMQhCiSmLg_6Ye9mCyTbi6YZgc7HMFIdhdCEAM0I9lcsJ/pub?gid=0&single=true&output=csv",
     render: renderFundraising
+  },
+  TeamInfo: {
+    url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Z0IB-xXvYnIk7GnsqFOXdsFB8D7_WfIVMQhCiSmLg_6Ye9mCyTbi6YZgc7HMFIdhdCEAM0I9lcsJ/pubhtml?gid=1184013325&single=true",
+    render: renderTeamInfo
   }
 };
 
@@ -236,6 +241,17 @@ function renderFundraising(rows) {
   content.innerHTML = html;
 }
 
+function renderTeamInfo(rows) {
+  const data = rows.slice(1);
+ let html = "<table>";
+  data.forEach(([name, email, phonenumber, position]) => {
+    if (name && email && phonenumber && position) {
+    html += `<tr><td>{name}</td><td>{email}</td><td>{phonenumber}</td><td>{position}</td></tr>`;
+  });
+  html += "</table>";
+  content.innerHTML = html;
+}
+  
 loadSection("quickLinks");
 </script>
 <script>
