@@ -245,7 +245,7 @@ function renderTeamInfo(rows) {
   const data = rows.slice(1);
  let html = "<table>";
   data.forEach(([name, email, phonenumber, position]) => {
-    html += `<tr><td>{name}</td><td>{email}</td><td>{phonenumber}</td><td>{position}</td></tr>`;
+    html += `<tr><td>${name}</td><td>${email}</td><td>${phonenumber}</td><td>${position}</td></tr>`;
   });
   html += "</table>";
   content.innerHTML = html;
