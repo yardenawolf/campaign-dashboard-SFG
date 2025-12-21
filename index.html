@@ -173,7 +173,7 @@ function {
   }
 }
 </script>
-
+<script>
 /* ---------- CSV PARSER (HANDLES COMMAS SAFELY) ---------- */
 function parseCSV(text) {
   const rows = [];
@@ -293,6 +293,7 @@ function renderFundraising(rows) {
 
 loadSection("quickLinks");
 </script>
+  
 <script>
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("/service-worker.js");
