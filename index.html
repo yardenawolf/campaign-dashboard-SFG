@@ -157,9 +157,12 @@
 
   </div>
 
-  <script>
-function {
+<script>
+(function () {
   const PASSWORD = "SFG26!";
+
+  // If already authenticated this session, allow
+  if (sessionStorage.getItem("sfg_auth") === "true") return;
 
   const input = prompt("Enter password:");
 
@@ -169,8 +172,9 @@ function {
     document.body.innerHTML = "";
     alert("Access denied.");
   }
-};
-
+})();
+</script>
+<script>
 /* ---------- CSV PARSER (HANDLES COMMAS SAFELY) ---------- */
 function parseCSV(text) {
   const rows = [];
