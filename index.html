@@ -161,8 +161,6 @@
 function {
   const PASSWORD = "SFG26!";
 
-  if (sessionStorage.getItem("sfg_auth") === "true") return;
-
   const input = prompt("Enter password:");
 
   if (input === PASSWORD) {
